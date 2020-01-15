@@ -15,8 +15,7 @@
 
         h1,
         h2,
-        h3,
-            {
+        h3 {
             color: #000;
             margin-bottom: 0;
             padding-bottom: 0;
@@ -63,10 +62,10 @@
         <input type="submit" name="load_data" value="Load Data" />
     </form>
     <?php
-    $host = "<Nama server database Anda>";
-    $user = "<Nama admin database Anda>";
-    $pass = "<Password admin database Anda>";
-    $db = "<Nama database Anda>";
+    $host = "dicoding-macd.database.windows.net";
+    $user = "dicodingmacd";
+    $pass = "Dcamgnidocid*";
+    $db = "dicoding-macd-db";
 
     try {
         $conn = new PDO("sqlsrv:server = $host; Database = $db", $user, $pass);
