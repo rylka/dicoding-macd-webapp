@@ -5,7 +5,7 @@
     <style type="text/css">
         body {
             background-color: #fff;
-            border-top: solid 10px #000;
+            /* border-top: solid 10px #000; */
             color: #333;
             font-size: .85em;
             margin: 20;
@@ -48,17 +48,22 @@
             padding: 0.25em 2em 0.25em 0em;
             border: 0 none;
         }
+
+        #input1 {
+            margin-left: 50px;
+            margin-right: 34px;
+        }
     </style>
 </head>
 
 <body>
-    <h1>Register here!</h1>
-    <p>Fill in your name and email address, then click <strong>Submit</strong> to register.</p>
+    <h1>Form Input Data Mahasiswa</h1>
+    <p>isi NPM, Nama, dan Prodi. Kemudian klik <strong>Submit</strong> untuk input data.</p>
     <form method="post" action="index.php" enctype="multipart/form-data">
-        Name <input type="text" name="name" id="name" /></br></br>
-        Email <input type="text" name="email" id="email" /></br></br>
-        Job <input type="text" name="job" id="job" /></br></br>
-        <input type="submit" name="submit" value="Submit" />
+        NPM&ensp;&ensp;: <input type="text" name="npm" id="npm" /></br></br>
+        Nama&nbsp;&nbsp;: <input type="text" name="nama" id="nama" /></br></br>
+        Prodi&ensp;&nbsp;: <input type="text" name="prodi" id="prodi" /></br></br>
+        <input id="input1" type="submit" name="submit" value="Submit" />
         <input type="submit" name="load_data" value="Load Data" />
     </form>
     <?php
@@ -76,45 +81,45 @@
 
     if (isset($_POST['submit'])) {
         try {
-            $name = $_POST['name'];
-            $email = $_POST['email'];
-            $job = $_POST['job'];
-            $date = date("Y-m-d");
+            $npm = $_POST['npm'];
+            $nama = $_POST['nama'];
+            $prodi = $_POST['prodi'];
+            $tgl = date("Y-m-d");
             // Insert data
-            $sql_insert = "INSERT INTO Registration (name, email, job, date) 
+            $sql_insert = "INSERT INTO MahasiswaDB (npm, nama, prodi, tgl) 
                         VALUES (?,?,?,?)";
             $stmt = $conn->prepare($sql_insert);
-            $stmt->bindValue(1, $name);
-            $stmt->bindValue(2, $email);
-            $stmt->bindValue(3, $job);
-            $stmt->bindValue(4, $date);
+            $stmt->bindValue(1, $npm);
+            $stmt->bindValue(2, $nama);
+            $stmt->bindValue(3, $prodi);
+            $stmt->bindValue(4, $tgl);
             $stmt->execute();
         } catch (Exception $e) {
             echo "Failed: " . $e;
         }
 
-        echo "<h3>Your're registered!</h3>";
+        echo "<h3>Data berhasil di input!</h3>";
     } else if (isset($_POST['load_data'])) {
         try {
-            $sql_select = "SELECT * FROM Registration";
+            $sql_select = "SELECT * FROM MahasiswaDB";
             $stmt = $conn->query($sql_select);
             $registrants = $stmt->fetchAll();
             if (count($registrants) > 0) {
-                echo "<h2>People who are registered:</h2>";
+                echo "<h2>Data Mahasiswa:</h2>";
                 echo "<table>";
-                echo "<tr><th>Name</th>";
-                echo "<th>Email</th>";
-                echo "<th>Job</th>";
-                echo "<th>Date</th></tr>";
+                echo "<tr><th>NPM</th>";
+                echo "<th>Nama</th>";
+                echo "<th>Prodi</th>";
+                echo "<th>Tanggal</th></tr>";
                 foreach ($registrants as $registrant) {
-                    echo "<tr><td>" . $registrant['name'] . "</td>";
-                    echo "<td>" . $registrant['email'] . "</td>";
-                    echo "<td>" . $registrant['job'] . "</td>";
-                    echo "<td>" . $registrant['date'] . "</td></tr>";
+                    echo "<tr><td>" . $registrant['npm'] . "</td>";
+                    echo "<td>" . $registrant['nama'] . "</td>";
+                    echo "<td>" . $registrant['prodi'] . "</td>";
+                    echo "<td>" . $registrant['tgl'] . "</td></tr>";
                 }
                 echo "</table>";
             } else {
-                echo "<h3>No one is currently registered.</h3>";
+                echo "<h3>Tidak ada data.</h3>";
             }
         } catch (Exception $e) {
             echo "Failed: " . $e;
